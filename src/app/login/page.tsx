@@ -13,18 +13,22 @@ export default function Login() {
     e.preventDefault();
     try {
       const res = await axios.post("https://asyncxeno.app.n8n.cloud/webhook/ca570426-3c74-4cd6-8a66-2a26d8d8ecac", { username, password });
-
+  
       if (res.data?.data?.token) {
         localStorage.setItem("jwt", res.data.data.token);
         localStorage.setItem("jwt_expiration", (Date.now() + 5 * 60 * 1000).toString()); 
         router.push("/posts");
-      } else {
+      } 
+      else {
         setError("Invalid response from server.");
       }
-    } catch (err) {
-      setError("Invalid credentials.");
-    }
-  };
+  } 
+  catch (err: any) {  // ✅ Explicitly type error
+      console.error("Login error:", err); // ✅ Log the error to console
+      setError(err.response?.data?.message || "Invalid credentials."); // ✅ Use error message from response if available
+  }
+};
+
 
   return (
     <div className="max-w-sm mx-auto mt-10">
