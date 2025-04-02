@@ -30,6 +30,7 @@ export default function Navbar() {
       }
     };
 
+    checkAuthStatus();
     const interval = setInterval(checkAuthStatus, 60000);
     return () => clearInterval(interval);
   }, [handleLogout]); // ✅ Add handleLogout as a dependency
