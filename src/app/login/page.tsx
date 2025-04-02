@@ -23,9 +23,14 @@ export default function Login() {
         setError("Invalid response from server.");
       }
   } 
-  catch (err: any) {  // ✅ Explicitly type error
-      console.error("Login error:", err); // ✅ Log the error to console
-      setError(err.response?.data?.message || "Invalid credentials."); // ✅ Use error message from response if available
+  catch (err: unknown) { 
+    if (axios.isAxiosError(err)) {
+      console.error("Login error:", err.response?.data);
+      setError(err.response?.data?.message || "Invalid credentials.");
+    } else {
+      console.error("Unexpected error:", err);
+      setError("Something went wrong. Please try again.");
+    }
   }
 };
 
