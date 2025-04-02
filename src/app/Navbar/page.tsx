@@ -31,7 +31,7 @@ export default function Navbar() {
     };
     const interval = setInterval(checkAuthStatus, 60000); 
     return () => clearInterval(interval);
-  }, [checkAuthStatus]);
+  }, []);
 
 
   return (
