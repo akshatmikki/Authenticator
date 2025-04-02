@@ -19,20 +19,20 @@ export default function Navbar() {
         setIsLoggedIn(true);
       }
     };
+    const handleLogout = () => {
+      localStorage.removeItem("jwt");
+      localStorage.removeItem("jwt_expiration");
+      setIsLoggedIn(false);
+      
+  
+      if (pathname !== "/login" && pathname !== "/register") {
+        router.push("/login");
+      }
+    };
     const interval = setInterval(checkAuthStatus, 60000); 
     return () => clearInterval(interval);
   }, [checkAuthStatus]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("jwt");
-    localStorage.removeItem("jwt_expiration");
-    setIsLoggedIn(false);
-    
-
-    if (pathname !== "/login" && pathname !== "/register") {
-      router.push("/login");
-    }
-  };
 
   return (
     <nav className="p-4 bg-gray-800 text-white flex justify-between">
