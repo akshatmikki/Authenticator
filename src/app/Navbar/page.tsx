@@ -8,21 +8,20 @@ export default function Navbar() {
   const pathname = usePathname(); 
 
   useEffect(() => {
-    checkAuthStatus();
+    const checkAuthStatus = () => {
+      const token = localStorage.getItem("jwt");
+      const expiration = localStorage.getItem("jwt_expiration");
+  
+      if (!token || !expiration || Date.now() > Number(expiration)) {
+        handleLogout();
+      } 
+      else {
+        setIsLoggedIn(true);
+      }
+    };
     const interval = setInterval(checkAuthStatus, 60000); 
     return () => clearInterval(interval);
   }, [checkAuthStatus]);
-
-  const checkAuthStatus = () => {
-    const token = localStorage.getItem("jwt");
-    const expiration = localStorage.getItem("jwt_expiration");
-
-    if (!token || !expiration || Date.now() > Number(expiration)) {
-      handleLogout();
-    } else {
-      setIsLoggedIn(true);
-    }
-  };
 
   const handleLogout = () => {
     localStorage.removeItem("jwt");
