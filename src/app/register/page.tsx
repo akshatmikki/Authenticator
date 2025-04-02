@@ -29,8 +29,13 @@ export default function Register() {
       } else {
         setError("Registration failed. Please try again.");
       }
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Registration failed. Try again.");
+    } 
+    catch (err: unknown) { 
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.message || "Registration failed. Try again.");
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
     }
   };
 
