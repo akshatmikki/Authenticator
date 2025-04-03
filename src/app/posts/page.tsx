@@ -24,7 +24,7 @@ export default function Posts() {
         });
 
         if (res.status === 200 && res.data?.data?.length) {
-          setPosts(res.data.data);
+          setPosts(res.data);
         } else {
           setError("No posts available.");
         }
