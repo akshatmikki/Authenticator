@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 export default function Posts() {
-  const [posts, setPosts] = useState<{ data: { post: string; id: string }[] } | null>(null);
+  const [posts, setPosts] = useState<{ post: string; id: string }[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const router = useRouter();
@@ -19,18 +19,26 @@ export default function Posts() {
           return;
         }
 
-        const res = await axios.get("https://asyncxeno.app.n8n.cloud/webhook/19bcbda5-6497-478b-b2dc-68b0f4848fa2", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await axios.get(
+          "https://asyncxeno.app.n8n.cloud/webhook/19bcbda5-6497-478b-b2dc-68b0f4848fa2",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
 
-        if (res.status === 200 && res.data?.data?.length) {
+        console.log("API Response:", res.data); // Debugging step
+
+        // 🔹 Adjusted structure based on API response
+        if (Array.isArray(res.data)) {
           setPosts(res.data);
+        } else if (res.data?.data && Array.isArray(res.data.data)) {
+          setPosts(res.data.data);
         } else {
           setError("No posts available.");
         }
       } catch (err) {
         setError("Failed to fetch posts. Please try again.");
-        console.error(err);
+        console.error("Fetch error:", err);
       } finally {
         setLoading(false);
       }
@@ -47,10 +55,13 @@ export default function Posts() {
 
       {loading ? (
         <p className="text-gray-500 text-center">Loading posts...</p>
-      ) : posts?.data?.length ? (
+      ) : posts.length ? (
         <ul className="space-y-3">
-          {posts.data.map((post) => (
-            <li key={post.id} className="p-3 border rounded-md shadow-sm hover:shadow-md transition">
+          {posts.map((post) => (
+            <li
+              key={post.id}
+              className="p-3 border rounded-md shadow-sm hover:shadow-md transition"
+            >
               {post.post}
             </li>
           ))}
