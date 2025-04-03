@@ -2,7 +2,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import { Menu, X } from "lucide-react"; // Icons for menu
 
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -35,15 +34,18 @@ export default function Navbar() {
     <nav className="p-3 bg-gray-800 text-white flex justify-between items-center relative">
       <h1 className="text-xl font-bold">My App</h1>
 
-      {/* ✅ Hamburger Menu (Only on Mobile) */}
+      {/* ✅ Hamburger Menu Button (Mobile) */}
       <button
         className="md:hidden text-white"
         onClick={() => setIsMenuOpen(!isMenuOpen)}
       >
-        {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+        {isMenuOpen ? (
+          <span className="text-2xl">&times;</span> 
+        ) : (
+          <span className="text-2xl">&#9776;</span> 
+        )}
       </button>
 
-      {/* ✅ Menu for Mobile & Desktop */}
       <div
         className={`absolute md:relative top-14 left-0 w-full md:w-auto md:flex items-center space-x-4 p-4 bg-gray-800 md:bg-transparent transition-all ${
           isMenuOpen ? "block" : "hidden"
