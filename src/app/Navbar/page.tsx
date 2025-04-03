@@ -4,7 +4,6 @@ import { usePathname, useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false); // ✅ Toggle state
   const router = useRouter();
   const pathname = usePathname();
 
@@ -29,25 +28,20 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="p-4 bg-gray-800 text-white flex justify-between items-center">
-      <h1 className="text-xl font-bold">My App</h1>
+    <nav className="p-3 bg-gray-800 text-white flex justify-between items-center">
+      <h1 className="text-xl font-bold whitespace-nowrap">My App</h1>
 
-      {/* ✅ Mobile Menu Button */}
-      <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden">
-        {menuOpen ? "✖️" : "☰"}
-      </button>
-
-      {/* ✅ Menu Items */}
-      <div className={`md:flex space-x-4 ${menuOpen ? "block" : "hidden"} md:block`}>
+      {/* ✅ Horizontal Scrollable Menu */}
+      <div className="flex space-x-4 overflow-x-auto whitespace-nowrap px-2">
         {isLoggedIn ? (
           <>
-            <button onClick={handleLogout} className="bg-red-500 px-3 py-1 rounded hover:bg-red-700">
+            <button onClick={handleLogout} className="bg-red-500 px-3 py-1 rounded hover:bg-red-700 transition-all">
               Logout
             </button>
-            <a href="/addpost" className="bg-blue-500 px-3 py-1 rounded hover:bg-blue-700">
+            <a href="/addpost" className="bg-blue-500 px-3 py-1 rounded hover:bg-blue-700 transition-all">
               Create Post
             </a>
-            <a href="/posts" className="bg-green-500 px-3 py-1 rounded hover:bg-green-700">
+            <a href="/posts" className="bg-green-500 px-3 py-1 rounded hover:bg-green-700 transition-all">
               All Posts
             </a>
           </>
